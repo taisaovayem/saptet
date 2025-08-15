@@ -9,7 +9,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Sắp Tết",
     description: "Còn bao nhiêu ngày nữa thì đến Tết?",
-    images: "/dem-nguoc-den-tet.jpg",
+    images: `https://${
+      process.env.VERCEL_PROJECT_PRODUCTION_URL ?? "saptet.taisaovayem.com"
+    }/dem-nguoc-den-tet.jpg`,
   },
 };
 

@@ -7,7 +7,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Cách đặt trang chủ",
     description: "Hướng dẫn đặt làm trang chủ",
-    images: "/dem-nguoc-den-tet.jpg",
+    images: `https://${
+      process.env.VERCEL_PROJECT_PRODUCTION_URL ?? "saptet.taisaovayem.com"
+    }/dem-nguoc-den-tet.jpg`,
   },
 };
 
