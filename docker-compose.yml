@@ -1,0 +1,9 @@
+services:
+
+  saptet:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 3001:3000
