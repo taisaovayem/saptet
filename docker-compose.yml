@@ -7,3 +7,5 @@ services:
     restart: unless-stopped
     ports:
       - 3001:3000
+    environment:
+      VERCEL_PROJECT_PRODUCTION_URL: saptet.taisaovayem.com
