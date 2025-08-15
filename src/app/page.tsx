@@ -1,6 +1,17 @@
 import { countDown } from "../helpers";
 import { Banner, Search, Bookmark } from "../components";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sắp Tết",
+  description: "Còn bao nhiêu ngày nữa thì đến Tết?",
+  openGraph: {
+    title: "Sắp Tết",
+    description: "Còn bao nhiêu ngày nữa thì đến Tết?",
+    images: "/dem-nguoc-den-tet.jpg",
+  },
+};
 
 export default function Home() {
   return (

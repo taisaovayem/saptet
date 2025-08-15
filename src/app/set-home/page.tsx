@@ -1,4 +1,15 @@
 import { CopyLink } from "../../components";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Cách đặt trang chủ",
+  description: "Hướng dẫn đặt làm trang chủ",
+  openGraph: {
+    title: "Cách đặt trang chủ",
+    description: "Hướng dẫn đặt làm trang chủ",
+    images: "/dem-nguoc-den-tet.jpg",
+  },
+};
 
 export default function SetHome() {
   return (
