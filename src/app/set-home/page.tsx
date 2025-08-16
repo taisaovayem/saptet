@@ -36,7 +36,7 @@ export default function SetHome() {
         <CopyLink label="Ấn để copy" url="https://saptet.taisaovayem.com" />)
       </p>
       <p className="p-4">Add</p>
-      <p className="p-4">Tất tab, tất cả đã xong</p>
+      <p className="p-4">Tắt tab, tất cả đã xong</p>
       <h1 className="text-2xl p-4">Trình duyệt Firefox</h1>
       <p className="p-4">Settings &gt; Home</p>
       <p className="p-4">
