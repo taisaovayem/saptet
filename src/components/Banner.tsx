@@ -7,7 +7,7 @@ export function Banner({ remainMondays }: Props) {
     <div className="relative inline-block py-4">
       <Image src={banner} alt="Banner Image" width={500} height={300} />
       <div
-        className="absolute font-patrick-hand text-black text-2xl md:text-4xl transform -translate-x-1/2 italic"
+        className="absolute font-patrick-hand text-black text-2xl sm:text-4xl transform -translate-x-1/2 italic"
         style={{ top: "26%", left: "30.5%" }}
       >
         {remainMondays}

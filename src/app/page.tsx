@@ -1,5 +1,5 @@
-import { countDown } from "../helpers";
-import { Banner, Search, Bookmark } from "../components";
+import { countDown } from "@/helpers";
+import { Banner, Search, Bookmark, EmbedLink } from "@/components";
 import Link from "next/link";
 import { Metadata } from "next";
 
@@ -25,6 +25,7 @@ export default function Home() {
       <Search />
       <Bookmark />
       <div className="absolute right-4 bottom-4">
+        <EmbedLink />&nbsp; | &nbsp;
         <Link href="/set-home">Đặt làm trang chủ</Link>
       </div>
     </div>
