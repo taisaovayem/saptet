@@ -3,6 +3,7 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { LUNAR_NEW_YEARS } from "../constants";
+import { Mode } from "@/types";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -10,7 +11,8 @@ dayjs.extend(isSameOrAfter);
 
 const HCM_TIME_ZONE = "Asia/Ho_Chi_Minh";
 
-export function countDown(): number {
+export function countDown(mode: Mode): number {
+  if (!mode) return 0; // Chưa có ý định làm thêm tính năng
   let startDate = dayjs().tz(HCM_TIME_ZONE).startOf("date");
 
   const targetDate = dayjs(

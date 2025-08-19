@@ -2,6 +2,7 @@ import { countDown } from "@/helpers";
 import { Banner, Search, Bookmark, EmbedLink } from "@/components";
 import Link from "next/link";
 import { Metadata } from "next";
+import { Mode } from "@/types";
 
 export const metadata: Metadata = {
   title: "Sắp Tết",
@@ -15,13 +16,23 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
+type PostProps = {
+  mode: Mode;
+};
+
+export default async function Home({
+  params,
+}: {
+  params: Promise<PostProps>;
+}) {
+  const { mode = "normal" } = await params;
+  const count = countDown(mode);
   return (
     <div
       className="mx-auto w-full max-w-2xl text-center p-4"
       style={{ marginTop: "10vh" }}
     >
-      <Banner remainMondays={countDown()} />
+      <Banner remainMondays={count} />
       <Search />
       <Bookmark />
       <div className="absolute right-4 bottom-4">

@@ -1,9 +1,12 @@
 "use client";
-import { countDown } from "@/helpers";
 import { Banner } from "./Banner";
 import { useEffect } from "react";
 
-export function Embed() {
+type Props = {
+  count: number;
+};
+
+export function Embed({ count }: Props) {
   useEffect(() => {
     const interval = setInterval(() => {
       location.reload();
@@ -12,7 +15,7 @@ export function Embed() {
   }, []);
   return (
     <div className="w-full h-screen flex justify-center items-center">
-      <Banner remainMondays={countDown()} />
+      <Banner remainMondays={count} />
     </div>
   );
 }
