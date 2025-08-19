@@ -1,6 +1,5 @@
 import { Embed } from "@/components";
 import { countDown } from "@/helpers";
-import { Mode } from "@/types";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -16,11 +15,11 @@ export const metadata: Metadata = {
 };
 
 type PostProps = {
-  mode: Mode;
+  date: string;
 };
 
-export default async function EmbedPage({ params }: { params: Promise<PostProps> }) {
-  const { mode = "normal" } = await params;
-  const count = countDown(mode);
+export default async function EmbedPage({ searchParams }: { searchParams: Promise<PostProps> }) {
+  const { date } = await searchParams;
+  const count = countDown(date);
   return <Embed count={count}/>;
 }

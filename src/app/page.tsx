@@ -2,7 +2,6 @@ import { countDown } from "@/helpers";
 import { Banner, Search, Bookmark, EmbedLink } from "@/components";
 import Link from "next/link";
 import { Metadata } from "next";
-import { Mode } from "@/types";
 
 export const metadata: Metadata = {
   title: "Sắp Tết",
@@ -17,16 +16,16 @@ export const metadata: Metadata = {
 };
 
 type PostProps = {
-  mode: Mode;
+  date: string;
 };
 
 export default async function Home({
-  params,
+  searchParams,
 }: {
-  params: Promise<PostProps>;
+  searchParams: Promise<PostProps>;
 }) {
-  const { mode = "normal" } = await params;
-  const count = countDown(mode);
+  const { date } = await searchParams;
+  const count = countDown(date);
   return (
     <div
       className="mx-auto w-full max-w-2xl text-center p-4"
