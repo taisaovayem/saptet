@@ -1,5 +1,5 @@
-import { countDown } from "@/helpers";
-import { Banner, Search, Bookmark, EmbedLink } from "@/components";
+import { countDown, countTimeline } from "@/helpers";
+import { Banner, Search, Bookmark, EmbedLink, CountTimeline } from "@/components";
 import Link from "next/link";
 import { Metadata } from "next";
 
@@ -26,6 +26,7 @@ export default async function Home({
 }) {
   const { date } = await searchParams;
   const count = countDown(date);
+  const { matchTimeLine, timeMinues } = countTimeline();
   return (
     <div
       className="mx-auto w-full max-w-2xl text-center p-4"
@@ -34,6 +35,7 @@ export default async function Home({
       <Banner remainMondays={count} />
       <Search />
       <Bookmark />
+      <CountTimeline timeMinues={timeMinues} matchTimeLine={matchTimeLine}/>
       <div className="absolute right-4 bottom-4">
         <EmbedLink />&nbsp; | &nbsp;
         <Link href="/set-home">Đặt làm trang chủ</Link>

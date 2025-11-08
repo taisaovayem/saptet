@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
-import { LUNAR_NEW_YEARS } from "../constants";
+import { LUNAR_NEW_YEARS, TIME_LINE } from "../constants";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -35,4 +35,13 @@ export function countDown(date?: string): number {
     startDate = startDate.add(1, "day");
   }
   return count;
+}
+
+export function countTimeline() {
+  const current = dayjs().tz(HCM_TIME_ZONE);
+  const hours = current.get('hours');
+  const minues = current.get('minutes');
+  const timeMinues = hours * 60 + minues;
+  const matchTimeLine = TIME_LINE.find(item => item.start <= timeMinues && item.end > timeMinues)
+  return { timeMinues, matchTimeLine };
 }
