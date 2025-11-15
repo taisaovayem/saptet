@@ -31,6 +31,11 @@ export function CountTimeline({
     }, 1000);
     return () => clearInterval(interval);
   }, []);
+  useEffect(() => {
+    if (countDownMinues === 0) {
+      window.location.reload();
+    }
+  }, [countDownMinues])
   if (!matchTimeLine) return null;
   return <div className="w-full text-center">{message}</div>;
 }
