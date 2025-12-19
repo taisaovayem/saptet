@@ -19,6 +19,13 @@ export function CountTimeline({
     "{{count}}",
     countDownMinues.toString()
   );
+
+  function copy() {
+    if (window) {
+      navigator?.clipboard?.writeText(countDownMinues.toString())
+    }
+  }
+
   useEffect(() => {
     const initMinutes = dayjs().get('minutes');
     let previousMinutes = initMinutes;
@@ -37,5 +44,5 @@ export function CountTimeline({
     }
   }, [countDownMinues])
   if (!matchTimeLine) return null;
-  return <div className="w-full text-center">{message}</div>;
+  return <div className="w-full text-center cursor-pointer" onClick={copy}>{message}</div>;
 }
