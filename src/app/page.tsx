@@ -26,16 +26,17 @@ export default async function Home({
 }) {
   const { date } = await searchParams;
   const count = countDown(date);
-  const { matchTimeLine, timeMinues } = countTimeline();
+  const { matchTimeLine, timeMinutes } = countTimeline();
   return (
     <div
       className="mx-auto w-full max-w-2xl text-center p-4"
       style={{ marginTop: "10vh" }}
     >
+
       <Banner remainMondays={count} />
       <Search />
       <Bookmark />
-      <CountTimeline timeMinues={timeMinues} matchTimeLine={matchTimeLine}/>
+      <CountTimeline timeMinutes={timeMinutes} matchTimeLine={matchTimeLine}/>
       <div className="absolute right-4 bottom-4">
         <EmbedLink />&nbsp; | &nbsp;
         <Link href="/set-home">Đặt làm trang chủ</Link>

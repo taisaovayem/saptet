@@ -11,12 +11,12 @@ dayjs.extend(isSameOrAfter);
 const HCM_TIME_ZONE = "Asia/Ho_Chi_Minh";
 
 export function countDown(date?: string): number {
-  let startDate = dayjs(date, 'YYYY-MM-DD').tz(HCM_TIME_ZONE).startOf("date");
+  let startDate = dayjs(date, "YYYY-MM-DD").tz(HCM_TIME_ZONE).startOf("date");
 
   const targetDate = dayjs(
     LUNAR_NEW_YEARS.find((date) =>
-      dayjs(date).tz(HCM_TIME_ZONE).isSameOrAfter(startDate)
-    )
+      dayjs(date).tz(HCM_TIME_ZONE).isSameOrAfter(startDate),
+    ),
   )
     .tz(HCM_TIME_ZONE)
     .startOf("date");
@@ -37,11 +37,18 @@ export function countDown(date?: string): number {
   return count;
 }
 
-export function countTimeline() {
+export function getCurrentTimeMinutes(): number {
   const current = dayjs().tz(HCM_TIME_ZONE);
-  const hours = current.get('hours');
-  const minues = current.get('minutes');
-  const timeMinues = hours * 60 + minues;
-  const matchTimeLine = TIME_LINE.find(item => item.start <= timeMinues && item.end > timeMinues)
-  return { timeMinues, matchTimeLine };
+  const hours = current.get("hours");
+  const minues = current.get("minutes");
+  const timeMinutes = hours * 60 + minues;
+  return timeMinutes;
+}
+
+export function countTimeline() {
+  const timeMinutes = getCurrentTimeMinutes();
+  const matchTimeLine = TIME_LINE.find(
+    (item) => item.start <= timeMinutes && item.end > timeMinutes,
+  );
+  return { timeMinutes, matchTimeLine };
 }

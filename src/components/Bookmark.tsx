@@ -25,16 +25,16 @@ export function Bookmark() {
             <mask id="SVGsyA92bmM">
               <g
                 fill="none"
-                fill-opacity="0"
+                fillOpacity="0"
                 stroke="#fff"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
               >
                 <path
                   fill="#fff"
-                  stroke-dasharray="64"
-                  stroke-dashoffset="64"
+                  strokeDasharray="64"
+                  strokeDashoffset="64"
                   d="M12 5c9 0 9 0 9 7c0 7 0 7 -9 7c-9 0 -9 0 -9 -7c0 -7 0 -7 9 -7Z"
                 >
                   <animate
@@ -86,44 +86,44 @@ export function Bookmark() {
             <path
               fill="none"
               stroke="currentColor"
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               d="M18.38 27.94v-14.4l11.19-6.46c6.2-3.58 17.3 5.25 12.64 13.33"
-              stroke-width="1"
+              strokeWidth="1"
             />
             <path
               fill="none"
               stroke="currentColor"
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               d="m18.38 20.94l12.47-7.2l11.19 6.46c6.2 3.58 4.1 17.61-5.23 17.61"
-              stroke-width="1"
+              strokeWidth="1"
             />
             <path
               fill="none"
               stroke="currentColor"
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               d="m24.44 17.44l12.47 7.2v12.93c0 7.16-13.2 12.36-17.86 4.28"
-              stroke-width="1"
+              strokeWidth="1"
             />
             <path
               fill="none"
               stroke="currentColor"
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               d="M30.5 21.2v14.14L19.31 41.8c-6.2 3.58-17.3-5.25-12.64-13.33"
-              stroke-width="1"
+              strokeWidth="1"
             />
             <path
               fill="none"
               stroke="currentColor"
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               d="m30.5 27.94l-12.47 7.2l-11.19-6.46c-6.21-3.59-4.11-17.61 5.22-17.61"
-              stroke-width="1"
+              strokeWidth="1"
             />
             <path
               fill="none"
               stroke="currentColor"
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               d="m24.44 31.44l-12.47-7.2V11.31c0-7.16 13.2-12.36 17.86-4.28"
-              stroke-width="1"
+              strokeWidth="1"
             />
           </svg>
         </a>
