@@ -189,7 +189,7 @@ export function CountTimeline({
             <PopoverPanel
               transition
               anchor="top"
-              className="border p-4 border-gray-400 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-950"
+              className="border p-4 border-gray-400 dark:border-gray- rounded-xl bg-white dark:bg-gray-950"
             >
               <Field>
                 <Label className="text-sm/6 font-medium text-black dark:text-white">
@@ -204,6 +204,7 @@ export function CountTimeline({
                           : startHours.toString()
                       }
                       onChange={(e) => setStartHours(Number(e.target.value))}
+                      className="bg-white text-black dark:bg-black dark:text-white w-14"
                     >
                       <option value="00">00</option>
                       <option value="01">01</option>
@@ -232,11 +233,12 @@ export function CountTimeline({
                       <option value="24">24</option>
                     </Select>
                   </div>
-                  <div>:</div>
+                  <div className="text-center">:</div>
                   <div className="relative">
                     <Select
                       value={startMinutes.toString()}
                       onChange={(e) => setStartMinutes(Number(e.target.value))}
+                      className="bg-white text-black dark:bg-black dark:text-white w-14"
                     >
                       <option value="00">00</option>
                       <option value="01">01</option>
@@ -316,6 +318,7 @@ export function CountTimeline({
                           : endHours.toString()
                       }
                       onChange={(e) => setEndHours(Number(e.target.value))}
+                      className="bg-white text-black dark:bg-black dark:text-white w-14"
                     >
                       <option value="00">00</option>
                       <option value="01">01</option>
@@ -344,11 +347,12 @@ export function CountTimeline({
                       <option value="24">24</option>
                     </Select>
                   </div>
-                  <div>:</div>
+                  <div className="text-center">:</div>
                   <div className="relative">
                     <Select
                       value={endMinutes.toString()}
                       onChange={(e) => setEndMinutes(Number(e.target.value))}
+                      className="bg-white text-black dark:bg-black dark:text-white w-14"
                     >
                       <option value="00">00</option>
                       <option value="01">01</option>
