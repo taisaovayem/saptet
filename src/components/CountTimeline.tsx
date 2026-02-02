@@ -1,6 +1,6 @@
 "use client";
 import { TimeLine } from "@/constants";
-import { getCurrentTimeMinutes } from "@/helpers";
+import { formatTimeUnit, getCurrentTimeMinutes } from "@/helpers";
 import {
   Description,
   Field,
@@ -50,7 +50,7 @@ export function CountTimeline({
       ) {
         const workEndTimeNumber = Number(workEndTime);
         return {
-          message: `Còn {{count}} phút nữa là đến ${Math.floor(workEndTimeNumber / 60)}h${workEndTimeNumber % 60}`,
+          message: `Còn {{count}} phút nữa là đến ${formatTimeUnit(Math.floor(workEndTimeNumber / 60))}h${formatTimeUnit(workEndTimeNumber % 60)}`,
           start: 510,
           end: workEndTimeNumber,
         };
