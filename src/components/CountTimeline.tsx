@@ -2,7 +2,6 @@
 import { TimeLine } from "@/constants";
 import { formatTimeUnit, getCurrentTimeMinutes } from "@/helpers";
 import {
-  Description,
   Field,
   Label,
   Popover,
@@ -10,8 +9,6 @@ import {
   PopoverPanel,
   Select,
 } from "@headlessui/react";
-import clsx from "clsx";
-import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
 const WORK_START_TIME = "work_start_time";
@@ -114,10 +111,10 @@ export function CountTimeline({
 
   useEffect(() => {
     loadClientSetting();
-    const initMinutes = dayjs().get("minutes");
+    const initMinutes = new Date().getMinutes();
     let previousMinutes = initMinutes;
     const interval = setInterval(() => {
-      const currentMinutes = dayjs().get("minutes");
+      const currentMinutes = new Date().getMinutes();
       if (currentMinutes !== previousMinutes) {
         setCountdownMinues((previous) => previous - 1);
         previousMinutes = currentMinutes;
