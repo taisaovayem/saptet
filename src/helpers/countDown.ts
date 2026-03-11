@@ -2,12 +2,11 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
-import { LUNAR_NEW_YEARS, TIME_LINE } from "../constants";
+import { LUNAR_NEW_YEARS, HolyDay, TIME_LINE } from "../constants";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(isSameOrAfter);
-
 const HCM_TIME_ZONE = "Asia/Ho_Chi_Minh";
 
 export function countDown(date?: string): number {
@@ -51,4 +50,170 @@ export function countTimeline() {
     (item) => item.start <= timeMinutes && item.end > timeMinutes,
   );
   return { timeMinutes, matchTimeLine };
+}
+
+export function countRemainDays(
+  targetDate: string,
+  date?: string,
+): number {
+  let startDate = date
+    ? dayjs(date).tz(HCM_TIME_ZONE).startOf("date")
+    : dayjs().tz(HCM_TIME_ZONE).startOf("date");
+
+  let endDate = dayjs(targetDate)
+    .tz(HCM_TIME_ZONE)
+    .startOf("date");
+
+  if (endDate.isBefore(startDate)) {
+    return 0;
+  }
+
+  return endDate.diff(startDate, "day");
+}
+
+export function getRepeatHolyDays(
+  holidays: HolyDay[],
+  date?: string,
+): { day: number; monday: number; name: string }[] {
+  const now = date
+    ? dayjs(date).tz(HCM_TIME_ZONE).startOf("day")
+    : dayjs().tz(HCM_TIME_ZONE).startOf("day");
+
+  const result: {
+    day: number;
+    monday: number;
+    name: string;
+  }[] = [];
+
+  for (const h of holidays) {
+    let target = dayjs()
+      .tz(HCM_TIME_ZONE)
+      .year(now.year())
+      .month(h.month)
+      .date(h.day)
+      .startOf("day");
+
+    // nếu đã qua → sang năm sau
+    if (target.isBefore(now)) {
+      target = target.add(1, "year");
+    }
+
+    const targetStr = target.format("YYYY-MM-DD");
+
+    const remainDays = countRemainDays(targetStr, now.format("YYYY-MM-DD"));
+
+    // chỉ lấy trong 30 ngày
+    if (remainDays >= 0 && remainDays <= 30) {
+      const mondayCount = countDown(targetStr);
+
+      result.push({
+        day: remainDays,
+        monday: mondayCount,
+        name: h.name,
+      });
+    }
+  }
+
+  result.sort((a, b) => a.day - b.day);
+
+  return result;
+}
+
+const lunarFormatter = new Intl.DateTimeFormat("vi-VN-u-ca-chinese", {
+  day: "numeric",
+  month: "numeric",
+  year: "numeric",
+});
+
+function getLunarParts(date: Date) {
+  const parts = lunarFormatter.formatToParts(date);
+
+  const day = Number(parts.find(p => p.type === "day")?.value);
+  const month = Number(parts.find(p => p.type === "month")?.value);
+  const year = Number(parts.find(p => p.type === "year")?.value);
+
+  return { day, month, year };
+}
+
+function getSolarDateFromLunar(
+  lunarDay: number,
+  lunarMonth: number,
+  year: number,
+) {
+  const start = dayjs()
+    .tz(HCM_TIME_ZONE)
+    .year(year)
+    .startOf("year");
+
+  const end = start.endOf("year");
+
+  let d = start;
+
+  while (d.isBefore(end)) {
+    const { day, month } = getLunarParts(d.toDate());
+
+    if (day === lunarDay && month === lunarMonth) {
+      return d.startOf("day");
+    }
+
+    d = d.add(1, "day");
+  }
+
+  return null;
+}
+
+export function getLunarHolyDays(
+  holidays: HolyDay[],
+  date?: string,
+): { day: number; monday: number; name: string }[] {
+  const now = date
+    ? dayjs(date).tz(HCM_TIME_ZONE).startOf("day")
+    : dayjs().tz(HCM_TIME_ZONE).startOf("day");
+
+  const result: {
+    day: number;
+    monday: number;
+    name: string;
+  }[] = [];
+
+  for (const h of holidays) {
+    let target = getSolarDateFromLunar(
+      h.day,
+      h.month,
+      now.year(),
+    );
+
+    if (!target) continue;
+
+    if (target.isBefore(now)) {
+      target = getSolarDateFromLunar(
+        h.day,
+        h.month,
+        now.year() + 1,
+      );
+    }
+
+    if (!target) continue;
+
+    const targetStr = target.format("YYYY-MM-DD");
+
+    const remainDays = countRemainDays(
+      targetStr,
+      now.format("YYYY-MM-DD"),
+    );
+
+    if (remainDays >= 0 && remainDays <= 30) {
+      const mondayCount = countDown(targetStr);
+
+      result.push({
+        day: remainDays,
+        monday: mondayCount,
+        name: h.name,
+      });
+    }
+  }
+
+  result.sort((a, b) => a.day - b.day);
+
+  return result;
 }

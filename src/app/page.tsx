@@ -1,5 +1,5 @@
 import { countDown, countTimeline } from "@/helpers";
-import { Banner, Search, Bookmark, EmbedLink, CountTimeline } from "@/components";
+import { Banner, Search, Bookmark, EmbedLink, CountTimeline, CountHolydays } from "@/components";
 import Link from "next/link";
 import { Metadata } from "next";
 
@@ -41,6 +41,7 @@ export default async function Home({
         <EmbedLink />&nbsp; | &nbsp;
         <Link href="/set-home">Đặt làm trang chủ</Link>
       </div>
+      <CountHolydays date={date} />
     </div>
   );
 }
