@@ -1,15 +1,38 @@
+"use client"
+import { useEffect, useRef } from "react";
+
 type Props = { remainMondays: number };
 
 export function Banner({ remainMondays }: Props) {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const img = new Image();
+    img.src = "/dem-nguoc-den-tet.jpg";
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      ctx.fillStyle = "black";
+      ctx.font = "italic 100px 'Patrick Hand', cursive";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      const x = remainMondays < 10 ? canvas.width * 0.3 : canvas.width * 0.305;
+      const y = canvas.height * 0.36;
+      ctx.fillText(String(remainMondays), x, y);
+    };
+  }, [remainMondays]);
+
   return (
-    <div className="relative inline-block py-4">
-      <img src="/dem-nguoc-den-tet.jpg" alt="Banner Image" width={500} height={300} />
-      <div
-        className="absolute font-patrick-hand text-black text-2xl sm:text-4xl transform -translate-x-1/2 italic"
-        style={{ top: "26%", left: "30.5%" }}
-      >
-        {remainMondays}
-      </div>
+    <div className="flex justify-center py-4">
+      <canvas
+      ref={canvasRef}
+      className="w-full max-w-[500px] h-auto"
+    />
     </div>
   );
 }
