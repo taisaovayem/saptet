@@ -27,8 +27,7 @@ export function CountHolydays({ date }: CountHolyDaysProps) {
   const remainHolydays = sorted.filter((i) => i.day !== 0);
 
   return (
-    <div className="text-xs py-4">
-      {/* hôm nay */}
+    <div className="text-xs py-4 text-gray-600 dark:text-gray-300">
       {todayHolydays.length > 0 && (
         <div>
           {todayHolydays
