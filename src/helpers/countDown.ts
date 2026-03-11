@@ -53,20 +53,14 @@ export function countTimeline() {
 }
 
 export function countRemainDays(
-  targetDate: string,
-  date?: string,
+  targetDate: dayjs.Dayjs,
+  date?: dayjs.Dayjs,
 ): number {
-  let startDate = date
-    ? dayjs(date).tz(HCM_TIME_ZONE).startOf("date")
-    : dayjs().tz(HCM_TIME_ZONE).startOf("date");
+  const startDate = date
+    ? date.startOf("day")
+    : dayjs().tz(HCM_TIME_ZONE).startOf("day");
 
-  let endDate = dayjs(targetDate)
-    .tz(HCM_TIME_ZONE)
-    .startOf("date");
-
-  if (endDate.isBefore(startDate)) {
-    return 0;
-  }
+  const endDate = targetDate.startOf("day");
 
   return endDate.diff(startDate, "day");
 }
@@ -84,7 +78,7 @@ export function getRepeatHolyDays(
     monday: number;
     name: string;
   }[] = [];
-
+console.log('holidays', holidays)
   for (const h of holidays) {
     let target = dayjs()
       .tz(HCM_TIME_ZONE)
@@ -93,18 +87,14 @@ export function getRepeatHolyDays(
       .date(h.day)
       .startOf("day");
 
-    // nếu đã qua → sang năm sau
     if (target.isBefore(now)) {
       target = target.add(1, "year");
     }
 
-    const targetStr = target.format("YYYY-MM-DD");
+    const remainDays = countRemainDays(target, now);
 
-    const remainDays = countRemainDays(targetStr, now.format("YYYY-MM-DD"));
-
-    // chỉ lấy trong 30 ngày
     if (remainDays >= 0 && remainDays <= 30) {
-      const mondayCount = countDown(targetStr);
+      const mondayCount = countDown(target.format("YYYY-MM-DD"));
 
       result.push({
         day: remainDays,
@@ -185,6 +175,7 @@ export function getLunarHolyDays(
 
     if (!target) continue;
 
+    // nếu đã qua → sang năm sau
     if (target.isBefore(now)) {
       target = getSolarDateFromLunar(
         h.day,
@@ -195,15 +186,12 @@ export function getLunarHolyDays(
 
     if (!target) continue;
 
-    const targetStr = target.format("YYYY-MM-DD");
-
-    const remainDays = countRemainDays(
-      targetStr,
-      now.format("YYYY-MM-DD"),
-    );
+    const remainDays = countRemainDays(target, now);
 
     if (remainDays >= 0 && remainDays <= 30) {
-      const mondayCount = countDown(targetStr);
+      const mondayCount = countDown(
+        target.format("YYYY-MM-DD"),
+      );
 
       result.push({
         day: remainDays,

@@ -16,11 +16,6 @@ export const REPEAT_HOLYDAYS: HolyDay[] = [
         name: "Lễ tình nhân (Vallentine) 14/2",
     },
     {
-        day: 26,
-        month: 2,
-        name: "Tết dương lịch",
-    },
-    {
         day: 3,
         month: 1,
         name: "Ngày thành lập Đảng Cộng Sản Việt Nam 3/2",
