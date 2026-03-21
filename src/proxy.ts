@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { countDown, getHolyDayText } from "@/helpers";
+import { boxText, countDown, getHolyDayText } from "@/helpers";
 
 const rateLimitMap = new Map<string, { count: number; timestamp: number }>();
 
 const WINDOW_SIZE = 60 * 1000;
 const MAX_REQUESTS = 100;
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const ip =
     request.headers.get("cf-connecting-ip") ??
     request.headers.get("x-forwarded-for") ??
@@ -30,8 +30,6 @@ export function proxy(request: NextRequest) {
       rateLimitMap.set(ip, { count: 1, timestamp: now });
     }
   }
-
-  // ===== detect curl =====
 
   const ua = request.headers.get("user-agent") || "";
   const accept = request.headers.get("accept") || "";
@@ -62,11 +60,29 @@ export function proxy(request: NextRequest) {
       messages.push(remainHolydayText);
     }
 
-    return new NextResponse(messages.join("\n") + "\n", {
-      headers: {
-        "Content-Type": "text/plain",
-      },
-    });
+    try {
+      const lichResponse = await fetch("https://lich.day", {
+        headers: {
+          "User-Agent": "curl",
+        },
+        cache: "no-store",
+      });
+      const lichText = await lichResponse.text();
+      return new NextResponse(
+        "\n\n\n" +
+          boxText(messages) +
+          "\n\n\n\n\n Âm lịch (nguồn: lich.day): \n\n\n" +
+          lichText +
+          "\n",
+        {
+          headers: {
+            "Content-Type": "text/plain",
+          },
+        },
+      );
+    } catch {
+      return new NextResponse(boxText(messages) + "\n");
+    }
   }
 
   return NextResponse.next();
