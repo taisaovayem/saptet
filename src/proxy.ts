@@ -7,7 +7,7 @@ const rateLimitMap = new Map<string, { count: number; timestamp: number }>();
 const WINDOW_SIZE = 60 * 1000;
 const MAX_REQUESTS = 100;
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const ip =
     request.headers.get("cf-connecting-ip") ??
     request.headers.get("x-forwarded-for") ??
@@ -31,59 +31,59 @@ export function proxy(request: NextRequest) {
     }
   }
 
-  // const ua = request.headers.get("user-agent") || "";
-  // const accept = request.headers.get("accept") || "";
+  const ua = request.headers.get("user-agent") || "";
+  const accept = request.headers.get("accept") || "";
 
-  // const cliAgents = [
-  //   "curl",
-  //   "wget",
-  //   "httpie",
-  //   "node-fetch",
-  //   "python-requests",
-  //   "go-http-client",
-  // ];
+  const cliAgents = [
+    "curl",
+    "wget",
+    "httpie",
+    "node-fetch",
+    "python-requests",
+    "go-http-client",
+  ];
 
-  // const isCli =
-  //   cliAgents.some((x) => ua.toLowerCase().includes(x)) ||
-  //   !accept.includes("text/html");
+  const isCli =
+    cliAgents.some((x) => ua.toLowerCase().includes(x)) ||
+    !accept.includes("text/html");
 
-  // if (isCli && request.nextUrl.pathname === "/") {
-  //   const date = request.nextUrl.searchParams.get("date") ?? undefined;
+  if (isCli && request.nextUrl.pathname === "/") {
+    const date = request.nextUrl.searchParams.get("date") ?? undefined;
 
-  //   const count = countDown(date);
-  //   const { remainHolydayText, todayHolydayText } = getHolyDayText(date);
-  //   const messages = [`Còn ${count} cái thứ hai nữa là đến tết`];
-  //   if (todayHolydayText.length) {
-  //     messages.push(todayHolydayText);
-  //   }
-  //   if (remainHolydayText.length) {
-  //     messages.push(remainHolydayText);
-  //   }
+    const count = countDown(date);
+    const { remainHolydayText, todayHolydayText } = getHolyDayText(date);
+    const messages = [`Còn ${count} cái thứ hai nữa là đến tết`];
+    if (todayHolydayText.length) {
+      messages.push(todayHolydayText);
+    }
+    if (remainHolydayText.length) {
+      messages.push(remainHolydayText);
+    }
 
-  //   try {
-  //     const lichResponse = await fetch("https://lich.day", {
-  //       headers: {
-  //         "User-Agent": "curl",
-  //       },
-  //       cache: "no-store",
-  //     });
-  //     const lichText = await lichResponse.text();
-  //     return new NextResponse(
-  //       "\n\n\n" +
-  //         boxText(messages) +
-  //         "\n\n\n\n\n Âm lịch (nguồn: lich.day): \n\n\n" +
-  //         lichText +
-  //         "\n",
-  //       {
-  //         headers: {
-  //           "Content-Type": "text/plain",
-  //         },
-  //       },
-  //     );
-  //   } catch {
-  //     return new NextResponse(boxText(messages) + "\n");
-  //   }
-  // }
+    try {
+      const lichResponse = await fetch("https://lich.day", {
+        headers: {
+          "User-Agent": "curl",
+        },
+        cache: "no-store",
+      });
+      const lichText = await lichResponse.text();
+      return new NextResponse(
+        "\n\n\n" +
+          boxText(messages) +
+          "\n\n\n\n\n Âm lịch (nguồn: lich.day): \n\n\n" +
+          lichText +
+          "\n",
+        {
+          headers: {
+            "Content-Type": "text/plain",
+          },
+        },
+      );
+    } catch {
+      return new NextResponse(boxText(messages) + "\n");
+    }
+  }
 
   return NextResponse.next();
 }
