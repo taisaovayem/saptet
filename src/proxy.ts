@@ -1,13 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { countDown, getHolyDayText } from "@/helpers";
 
-const rateLimitMap = new Map<
-  string,
-  { count: number; timestamp: number }
->();
+const rateLimitMap = new Map<string, { count: number; timestamp: number }>();
 
-const WINDOW_SIZE = 60 * 1000; // 1 phút
-const MAX_REQUESTS = 100; // 100 request / phút
+const WINDOW_SIZE = 60 * 1000;
+const MAX_REQUESTS = 100;
 
 export function proxy(request: NextRequest) {
   const ip =
@@ -32,6 +30,45 @@ export function proxy(request: NextRequest) {
       rateLimitMap.set(ip, { count: 1, timestamp: now });
     }
   }
+
+  // ===== detect curl =====
+
+  const ua = request.headers.get("user-agent") || "";
+  const accept = request.headers.get("accept") || "";
+
+  const cliAgents = [
+    "curl",
+    "wget",
+    "httpie",
+    "node-fetch",
+    "python-requests",
+    "go-http-client",
+  ];
+
+  const isCli =
+    cliAgents.some((x) => ua.toLowerCase().includes(x)) ||
+    !accept.includes("text/html");
+
+  if (isCli && request.nextUrl.pathname === "/") {
+    const date = request.nextUrl.searchParams.get("date") ?? undefined;
+
+    const count = countDown(date);
+    const { remainHolydayText, todayHolydayText } = getHolyDayText(date);
+    const messages = [`Còn ${count} cái thứ hai nữa là đến tết`];
+    if (todayHolydayText.length) {
+      messages.push(todayHolydayText);
+    }
+    if (remainHolydayText.length) {
+      messages.push(remainHolydayText);
+    }
+
+    return new NextResponse(messages.join("\n") + "\n", {
+      headers: {
+        "Content-Type": "text/plain",
+      },
+    });
+  }
+
   return NextResponse.next();
 }
 
