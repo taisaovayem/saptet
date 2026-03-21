@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { boxText, countDown, getHolyDayText } from "@/helpers";
+import { boxText, countDown, countTimeline, getHolyDayText } from "@/helpers";
 
 const rateLimitMap = new Map<string, { count: number; timestamp: number }>();
 
@@ -58,6 +58,15 @@ export async function proxy(request: NextRequest) {
     }
     if (remainHolydayText.length) {
       messages.push(remainHolydayText);
+    }
+
+    const { matchTimeLine, timeMinutes } = countTimeline();
+
+    if (matchTimeLine) {
+      messages.push(matchTimeLine.message.replaceAll(
+        "{{count}}",
+        (matchTimeLine.end - timeMinutes).toString(),
+      ))
     }
 
     try {

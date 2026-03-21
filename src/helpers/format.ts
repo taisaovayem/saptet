@@ -3,20 +3,41 @@ export function formatTimeUnit(value: number) {
   return value;
 }
 
-export function boxText(lines: string[]) {
+export function boxText(lines: string[], maxWidth = 50) {
   if (!lines.length) return "";
 
-  const maxLen = Math.max(...lines.map(l => l.length));
+  function wrapLine(line: string) {
+    const words = line.split(" ");
+    const result: string[] = [];
 
-  const top =
-    "┌" + "─".repeat(maxLen + 2) + "┐";
+    let current = "";
 
-  const bottom =
-    "└" + "─".repeat(maxLen + 2) + "┘";
+    for (const w of words) {
+      if ((current + " " + w).trim().length > maxWidth) {
+        result.push(current.trim());
+        current = w;
+      } else {
+        current += " " + w;
+      }
+    }
 
-  const content = lines.map(
-    l => "│ " + l.padEnd(maxLen, " ") + " │"
-  );
+    if (current.trim()) {
+      result.push(current.trim());
+    }
+
+    return result;
+  }
+
+  // wrap tất cả dòng
+  const wrapped = lines.flatMap(wrapLine);
+
+  const maxLen = Math.max(...wrapped.map((l) => l.length));
+
+  const top = "┌" + "─".repeat(maxLen + 2) + "┐";
+
+  const bottom = "└" + "─".repeat(maxLen + 2) + "┘";
+
+  const content = wrapped.map((l) => "│ " + l.padEnd(maxLen, " ") + " │");
 
   return [top, ...content, bottom].join("\n");
 }
