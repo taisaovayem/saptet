@@ -66,6 +66,11 @@ export const REPEAT_HOLYDAYS: HolyDay[] = [
         name: "Ngày nhà giáo Việt Nam 20/11",
     },
     {
+        day: 24,
+        month: 10,
+        name: "Ngày văn hóa Việt Nam",
+    },
+    {
         day: 25,
         month: 11,
         name: "Giáng sinh",
