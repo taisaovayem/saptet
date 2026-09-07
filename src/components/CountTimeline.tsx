@@ -129,7 +129,7 @@ export function CountTimeline({
   }, [countDownMinues]);
   if (!matchTimeLine) return null;
   return (
-    <div className="w-full text-center relative">
+    <div className="w-full text-center relative pt-4">
       {message}
           <Popover>
             <PopoverButton className="cursor-pointer outline-0">

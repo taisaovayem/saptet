@@ -1,5 +1,5 @@
 import { countDown, countTimeline } from "@/helpers";
-import { Banner, Search, Bookmark, EmbedLink, CountTimeline, CountHolydays } from "@/components";
+import { Banner, Search, EmbedLink, CountTimeline, CountHolydays } from "@/components";
 import Link from "next/link";
 import { Metadata } from "next";
 
@@ -35,7 +35,6 @@ export default async function Home({
 
       <Banner remainMondays={count} />
       <Search />
-      <Bookmark />
       <CountTimeline timeMinutes={timeMinutes} matchTimeLine={matchTimeLine}/>
       <div className="absolute right-4 bottom-4">
         <EmbedLink />&nbsp; | &nbsp;
